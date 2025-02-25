@@ -7,6 +7,7 @@ import {
 import { useState } from 'react'
 
 export default function HomeScreen() {
+  const [color, setColor] = useState('white')
   const [recognizing, setRecognizing] = useState(false)
   const [transcript, setTranscript] = useState('')
 
@@ -35,13 +36,18 @@ export default function HomeScreen() {
   const speak = () => {
     if (transcript.includes('red')) {
       Speech.speak('Here is the red screen')
+      setColor('red')
     }
     if (transcript.includes('blue')) {
       Speech.speak('Here is the blue screen')
+      setColor('blue')
     }
   }
   return (
-    <View className='bg-teal-500 flex-1 flex justify-center items-center'>
+    <View
+      className=' flex-1 flex justify-between items-center'
+      style={{ backgroundColor: color }}
+    >
       <View>
         {!recognizing ? (
           <Button title='Start' onPress={handleStart} />
@@ -52,9 +58,7 @@ export default function HomeScreen() {
           />
         )}
 
-        <ScrollView>
-          <Text>{transcript}</Text>
-        </ScrollView>
+        <Text className='text-2xl'>{transcript}</Text>
         <Button title='Press to hear some words' onPress={speak} />
       </View>
     </View>
