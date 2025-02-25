@@ -30,12 +30,15 @@ export default function HomeScreen() {
       maxAlternatives: 1,
       continuous: false,
       requiresOnDeviceRecognition: false,
-      addsPunctuation: false,
-      contextualStrings: ['Carlsen', 'Nepomniachtchi', 'Praggnanandhaa'],
     })
   }
   const speak = () => {
-    Speech.speak(transcript)
+    if (transcript.includes('red')) {
+      Speech.speak('Here is the red screen')
+    }
+    if (transcript.includes('blue')) {
+      Speech.speak('Here is the blue screen')
+    }
   }
   return (
     <View className='bg-teal-500 flex-1 flex justify-center items-center'>
