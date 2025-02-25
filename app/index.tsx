@@ -45,7 +45,7 @@ export default function HomeScreen() {
   }
   return (
     <View
-      className=' flex-1 flex justify-between items-center'
+      className=' flex-1 flex justify-center items-center'
       style={{ backgroundColor: color }}
     >
       <View>
