@@ -1,5 +1,5 @@
 import * as Speech from 'expo-speech'
-import { View, Text, Button, ScrollView } from 'react-native'
+import { View, Text, Button  } from 'react-native'
 import {
   ExpoSpeechRecognitionModule,
   useSpeechRecognitionEvent,
@@ -14,7 +14,16 @@ export default function HomeScreen() {
   useSpeechRecognitionEvent('start', () => setRecognizing(true))
   useSpeechRecognitionEvent('end', () => setRecognizing(false))
   useSpeechRecognitionEvent('result', (event) => {
-    setTranscript(event.results[0]?.transcript)
+    const newTranscript = event.results[0]?.transcript
+    setTranscript(newTranscript)
+    if (newTranscript?.includes('red')) {
+      Speech.speak('Here is the red screen')
+      setColor('red')
+    }
+    if (newTranscript?.includes('blue')) {
+      Speech.speak('Here is the blue screen')
+      setColor('blue')
+    }
   })
   useSpeechRecognitionEvent('error', (event) => {
     console.log('error code:', event.error, 'error message:', event.message)
@@ -33,21 +42,9 @@ export default function HomeScreen() {
       requiresOnDeviceRecognition: false,
     })
   }
-  const speak = () => {
-    if (transcript.includes('red')) {
-      Speech.speak('Here is the red screen')
-      setColor('red')
-    }
-    if (transcript.includes('blue')) {
-      Speech.speak('Here is the blue screen')
-      setColor('blue')
-    }
-  }
+
   return (
-    <View
-      className=' flex-1 flex justify-center items-center'
-      style={{ backgroundColor: color }}
-    >
+    <View className=' flex-1 flex justify-center items-center' style={{ backgroundColor: color }}>
       <View>
         {!recognizing ? (
           <Button title='Start' onPress={handleStart} />
@@ -59,7 +56,6 @@ export default function HomeScreen() {
         )}
 
         <Text className='text-2xl'>{transcript}</Text>
-        <Button title='Press to hear some words' onPress={speak} />
       </View>
     </View>
   )
